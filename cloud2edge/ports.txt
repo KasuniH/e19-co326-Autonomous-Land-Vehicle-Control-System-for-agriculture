@@ -1,0 +1,9 @@
+ip - 35.225.173.80
+
+NAME                                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)      
+c2e-ditto-nginx                        LoadBalancer   10.106.156.53    10.106.156.53    8080:30846/TCP -> 80
+c2e-hono-adapter-amqp                  LoadBalancer   10.106.169.86    10.106.169.86    5671:30190/TCP -> 8089
+c2e-hono-adapter-http                  LoadBalancer   10.96.203.95     10.96.203.95     8443:31287/TCP -> 8080 http
+c2e-hono-adapter-mqtt                  LoadBalancer   10.107.136.108   10.107.136.108   8883:31295/TCP -> 8883     
+c2e-hono-service-device-registry-ext   LoadBalancer   10.105.221.236   10.105.221.236   28443:31124/TCP -> 8085 http
+c2e-kafka-controller-0-external        LoadBalancer   10.107.22.66     10.107.22.66     9094:32203/TCP -> 8090
