@@ -4,20 +4,35 @@
     3. minikube (https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)
     4. helm (https://helm.sh/docs/intro/install/
 
+NS=opentwins
+RELEASE=c2e
+TRUSTSTORE_PATH=/tmp/c2e_hono_truststore.pem
+eval $(./setCloud2EdgeEnv.sh $RELEASE $NS $TRUSTSTORE_PATH)
+
+minikube -p opentwins ssh -- sudo docker stats --no-stream
+
+kubectl get pods -n opentwins
+kubectl get services -n opentwins
 
 ##########################################################
 
-NS=opentwins
-kubectl create namespace $NS
+minikube start --cpus 4 --disk-size 40gb --memory 8192 -p opentwins
 
 minikube tunnel -p opentwins
+minikube delete -p opentwins
+
+NS=opentwins
+RELEASE=c2e
+kubectl create namespace $NS
 
 helm install -n $NS --wait --timeout 20m \
   --set hono.useLoadBalancer=true \
   --set hono.kafka.externalAccess.broker.service.type=LoadBalancer \
   --set hono.kafka.externalAccess.controller.service.type=LoadBalancer \
   --set ditto.nginx.service.type=LoadBalancer \
-  $RELEASE eclipse-iot/cloud2edge
+  $RELEASE eclipse-iot/cloud2edge --debug
+
+helm install -n $NS --wait --timeout 20m $RELEASE eclipse-iot/cloud2edge --debug
 
 ###########################################################
 
@@ -33,7 +48,7 @@ server {
     server_name 35.225.173.80;
 
     location / {
-        proxy_pass http://10.106.156.53:8080;
+        proxy_pass http://10.100.254.252:8080;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -41,8 +56,10 @@ server {
     }
 }
 
+sudo rm /etc/nginx/sites-enabled/minikube
 sudo ln -s /etc/nginx/sites-available/minikube /etc/nginx/sites-enabled/
-
+sudo nginx -t
+sudo systemctl restart nginx
 
 ##### HONO HTTPS
 
@@ -53,7 +70,7 @@ server {
     server_name 35.225.173.80;
 
     location / {
-        proxy_pass https://10.96.203.95:8443;
+        proxy_pass https://10.105.26.23:8443;
         proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
         proxy_ssl_verify off;  # Use with caution. In production, you should verify the SSL certificate.
         
@@ -64,7 +81,7 @@ server {
     }
 }
 
-
+sudo rm /etc/nginx/sites-enabled/c2e-hono-adapter-http
 sudo ln -sf /etc/nginx/sites-available/c2e-hono-adapter-http /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
@@ -89,7 +106,7 @@ server {
     server_name 35.225.173.80;
 
     location / {
-        proxy_pass https://10.105.221.236:28443;
+        proxy_pass https://10.100.157.213:28443;
         proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
         proxy_ssl_verify off;  # Use with caution. In production, you should verify the SSL certificate.
         
@@ -100,7 +117,7 @@ server {
     }
 }
 
-
+sudo rm /etc/nginx/sites-enabled/c2e-hono-service-device-registry-ext
 sudo ln -sf /etc/nginx/sites-available/c2e-hono-service-device-registry-ext /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
@@ -119,7 +136,7 @@ sudo nano /etc/nginx/nginx.conf
 # Stream module for TCP proxying
 stream {
     upstream mqtt_backend {
-        server 10.107.136.108:8883;
+        server 10.100.82.199:8883;
         # Add more servers if needed for load balancing
     }
 
@@ -132,7 +149,7 @@ stream {
     }
 
     upstream  c2e-hono-adapter-amqp_backend {
-        server 10.106.169.86:5671;
+        server 10.110.87.136:5671;
         # Add more servers if needed for load balancing
     }
 
@@ -145,7 +162,7 @@ stream {
     }
 
     upstream  c2e-kafka-controller-0-external_backend {
-        server 10.107.22.66:9094;
+        server 10.105.251.101:9094;
         # Add more servers if needed for load balancing
     }
 
@@ -214,7 +231,7 @@ RELEASE="c2e"
 TRUSTSTORE_PATH="ca.crt"
 
 # Extract the CA certificate from the ConfigMap and save it to my-ca.crt
-kubectl get configmaps --namespace ${NS} ${RELEASE}-hono-example-trust-store --template="{{index .data \"ca.crt\"}}" > "${TRUSTSTORE_PATH}"
+kubectl get configmaps --namespace ${NS} ${RELEASE}-hono-example-trust-store --template="{{index .data \"ca.crt\"}}" > "ca.crt"
 
 cat ca.crt
 
@@ -226,7 +243,3 @@ mosquitto_pub -d -h 35.225.173.80 -p 8883 -u demo-device@org.eclipse.packages.c2
 }'
 
 ###############################################
-
-
-
-

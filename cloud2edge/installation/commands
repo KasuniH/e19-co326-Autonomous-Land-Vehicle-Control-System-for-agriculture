@@ -1,0 +1,4 @@
+kubectl get deployment c2e-ditto-connectivity -n opentwins -o yaml > c2e-ditto-connectivity.yaml
+
+
+kubectl apply -f c2e-ditto-connectivity.yaml -n opentwins

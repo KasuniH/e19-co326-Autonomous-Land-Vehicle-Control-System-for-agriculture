@@ -1,0 +1,8 @@
+kubectl get services -n opentwins
+
+devops:ZVDYGiUF1gxV
+${DITTO_DEVOPS_PWD}
+VXJxk9efbMx9
+
+
+ON2rCMZunAG3
