@@ -1,0 +1,16 @@
+curl -i -k -u my-auth-id-1@my-tenant:my-password -H 'Content-Type: application/json' --data-binary '{
+  "topic": "org.acme/my-device-1/things/twin/commands/modify",
+  "headers": {},
+  "path": "/features/temperature/properties/value",
+  "value": 45
+}' https://192.168.49.2:31839/telemetry
+
+mosquitto_pub -d -h 192.168.49.2 -p 30234 -u demo-device@org.eclipse.packages.c2e -P demo-secret ${MOSQUITTO_OPTIONS} -t telemetry -m '{
+    "topic": "org.eclipse.packages.c2e/demo-device/things/twin/commands/modify",
+    "headers": {},
+    "path": "/features/temperature/properties/value",
+    "value": 45
+    }'
+
+
+192.168.49.2:31101

@@ -1,22 +1,16 @@
-curl -i -k -X POST http://34.71.8.184:8085/v1/tenants/device-tenant
+curl -i -k -X POST https://192.168.49.2:30139/v1/tenants/my-tenant
 
-curl -i -k -X POST http://35.225.173.80:8085/v1/devices/device-tenant/co326:device-1
+curl -i -k -X POST https://192.168.49.2:30139/v1/devices/my-tenant/org.acme:my-device-1
+
 
 curl -i -k -X PUT -H "Content-Type: application/json" --data '[
 {
   "type": "hashed-password",
-  "auth-id": "device-1-auth",
+  "auth-id": "my-auth-id-1",
   "secrets": [{
-    "pwd-plain": "password"
+    "pwd-plain": "my-password"
   }]
-}]' http://35.225.173.80:8085/v1/credentials/device-tenant/co326:device-1
-
-NS=opentwins
-RELEASE=c2e
-HONO_TENANT=device-tenant
-DITTO_DEVOPS_PWD=$(kubectl --namespace ${NS} get secret ${RELEASE}-ditto-gateway-secret -o jsonpath="{.data.devops-password}" | base64 --decode)
-KAFKA_CERT=$(kubectl --namespace ${NS} get secret ${RELEASE}-kafka-example-keys -o jsonpath="{.data.tls\.crt}" | base64 --decode | tr -d '\n' | sed 's/E-----/E-----\\n/g' | sed 's/-----END/\\n-----END/g')
-
+}]' https://192.168.49.2:30139/v1/credentials/my-tenant/org.acme:my-device-1
 
 curl -i -X PUT -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json' --data '{
   "name": "[Hono/Kafka] '"${HONO_TENANT}"'",
@@ -172,7 +166,7 @@ curl -i -X PUT -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json'
   "clientCount": 1,
   "failoverEnabled": true,
   "validateCertificates": true
-}' http://35.225.173.80/api/2/connections/hono-kafka-connection-for-${HONO_TENANT//./_}
+}' http://192.168.49.2:31101/api/2/connections/hono-kafka-connection-for-${HONO_TENANT//./_}
 
 
 curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
@@ -216,21 +210,16 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
       }
     }
   }
-}' http://35.225.173.80/api/2/policies/co326:my-policy
+}' http://192.168.49.2:31101/api/2/policies/org.acme:my-policy
 
 
 curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
-  "policyId": "co326:my-policy",
+  "policyId": "org.acme:my-policy",
   "attributes": {
     "location": "Germany"
   },
   "features": {
     "temperature": {
-      "properties": {
-        "value": null
-      }
-    },
-    "speed": {
       "properties": {
         "value": null
       }
@@ -241,19 +230,11 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
       }
     }
   }
-}' http://35.225.173.80/api/2/things/co326:device-1
+}' http://192.168.49.2:31101/api/2/things/org.acme:my-device-1
 
-curl -i -k -u device-1-auth@device-tenant:password -H 'Content-Type: application/json' --data-binary '{
-  "topic": "co326/device-1/things/twin/commands/modify",
+curl -i -k -u my-auth-id-1@my-tenant:my-password -H 'Content-Type: application/json' --data-binary '{
+  "topic": "org.acme/my-device-1/things/twin/commands/modify",
   "headers": {},
   "path": "/features/temperature/properties/value",
-  "value": 100
-}' http://35.225.173.80:8080/telemetry
-
-
-mosquitto_pub -d -h 35.225.173.80 -p 8883 -u device-1-auth@device-tenant -P password --cafile ./ca.crt --insecure -t telemetry -m '{
-"topic": "co326/device-1/things/twin/commands/modify",
-"headers": {},
-"path": "/features/temperature/properties/value",
-"value": 45
-}'
+  "value": 45
+}' https://192.168.49.2:31839/telemetry

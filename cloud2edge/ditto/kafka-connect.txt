@@ -30,7 +30,7 @@ curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json
         ]
     }
   }
-}' ${DITTO_API_BASE_URL:?}/devops/piggyback/connectivity
+}' http://192.168.49.2:31101/devops/piggyback/connectivity
 
 
 curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json' --data '{

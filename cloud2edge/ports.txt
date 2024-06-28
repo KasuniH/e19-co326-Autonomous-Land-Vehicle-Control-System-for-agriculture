@@ -1,5 +1,7 @@
 ip - 35.225.173.80
 
+34.71.8.184
+
 NAME                                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)      
 c2e-ditto-nginx                        LoadBalancer   10.106.156.53    10.106.156.53    8080:30846/TCP -> 80
 c2e-hono-adapter-amqp                  LoadBalancer   10.106.169.86    10.106.169.86    5671:30190/TCP -> 8089
@@ -45,3 +47,20 @@ c2e-kafka                              ClusterIP      10.101.42.117    <none>   
 c2e-kafka-controller-0-external        LoadBalancer   10.96.190.31     10.96.190.31     9094:32763/TCP               15m
 c2e-kafka-controller-headless          ClusterIP      None             <none>           9094/TCP,9092/TCP,9093/TCP   15m
 c2e-mongodb                            ClusterIP      10.111.41.155    <none>           27017/TCP                    15m
+
+
+c2e-ditto-dittoui                      ClusterIP      10.109.96.107    <none>           8080/TCP                     43m
+c2e-ditto-gateway                      ClusterIP      10.99.90.84      <none>           8080/TCP                     43m
+c2e-ditto-nginx                        LoadBalancer   10.107.253.215   10.107.253.215   8080:31101/TCP               43m
+c2e-ditto-swaggerui                    ClusterIP      10.102.73.226    <none>           8080/TCP                     43m
+c2e-hono-adapter-amqp                  LoadBalancer   10.103.131.125   10.103.131.125   5671:32678/TCP               43m
+c2e-hono-adapter-http                  LoadBalancer   10.104.181.9     10.104.181.9     8443:31839/TCP               43m
+c2e-hono-adapter-mqtt                  LoadBalancer   10.99.191.43     10.99.191.43     8883:30234/TCP               43m
+c2e-hono-service-auth                  ClusterIP      10.110.161.212   <none>           5671/TCP,8088/TCP            43m
+c2e-hono-service-command-router        ClusterIP      10.99.154.238    <none>           5671/TCP                     43m
+c2e-hono-service-device-registry       ClusterIP      10.108.55.225    <none>           5671/TCP,8080/TCP,8443/TCP   43m
+c2e-hono-service-device-registry-ext   LoadBalancer   10.99.40.167     10.99.40.167     28443:30139/TCP              43m
+c2e-kafka                              ClusterIP      10.106.58.222    <none>           9092/TCP,9095/TCP            43m
+c2e-kafka-controller-0-external        LoadBalancer   10.104.219.238   10.104.219.238   9094:32256/TCP               43m
+c2e-kafka-controller-headless          ClusterIP      None             <none>           9094/TCP,9092/TCP,9093/TCP   43m
+c2e-mongodb                            ClusterIP      10.106.253.198   <none>           27017/TCP                    43m

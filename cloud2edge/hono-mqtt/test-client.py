@@ -5,10 +5,10 @@ import random
 import time
 
 # Define the MQTT broker details
-broker_address = "35.225.173.80"
+broker_address = "34.71.8.184"
 port = 8883
-username = "device-1-auth@device-tenant"
-password = "password"
+username = "my-auth-id-1@my-tenant"
+password = "my-password"
 topic = "telemetry"
 ca_cert = "./ca.crt"
 
@@ -50,7 +50,7 @@ try:
     while True:
         # Create a message with a random value
         message = {
-            "topic": "co326/device-1/things/twin/commands/modify",
+            "topic": "org.acme/my-device-1/things/twin/commands/modify",
             "headers": {},
             "path": "/features/temperature/properties/value",
             "value": get_random_value()
