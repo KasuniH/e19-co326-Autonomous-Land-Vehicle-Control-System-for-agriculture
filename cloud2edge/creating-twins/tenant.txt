@@ -1,0 +1,208 @@
+curl -i -k -X POST http://34.71.8.184:8085/v1/tenants/co326-tenant
+
+NS=opentwins
+RELEASE=c2e
+HONO_TENANT=co326-tenant
+DITTO_DEVOPS_PWD=$(kubectl --namespace ${NS} get secret ${RELEASE}-ditto-gateway-secret -o jsonpath="{.data.devops-password}" | base64 --decode)
+KAFKA_CERT=$(kubectl --namespace ${NS} get secret ${RELEASE}-kafka-example-keys -o jsonpath="{.data.tls\.crt}" | base64 --decode | tr -d '\n' | sed 's/E-----/E-----\\n/g' | sed 's/-----END/\\n-----END/g')
+
+
+curl -i -X PUT -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json' --data '{
+  "name": "[Hono/Kafka] '"${HONO_TENANT}"'",
+  "connectionType": "kafka",
+  "connectionStatus": "open",
+  "uri": "ssl://ditto-c2e:verysecret@'"${RELEASE}"'-kafka:9092",
+  "ca": "'"${KAFKA_CERT}"'",
+  "failoverEnabled": true,
+  "sources": [
+    {
+      "addresses": [
+        "hono.telemetry.'"${HONO_TENANT}"'"
+      ],
+      "consumerCount": 1,
+      "authorizationContext": [
+        "pre-authenticated:hono-connection-'"${HONO_TENANT}"'"
+      ],
+      "qos": 0,
+      "enforcement": {
+        "input": "{{ header:device_id }}",
+        "filters": [
+          "{{ entity:id }}"
+        ]
+      },
+      "headerMapping": {},
+      "payloadMapping": [],
+      "replyTarget": {
+        "enabled": true,
+        "address": "hono.command.'"${HONO_TENANT}"'/{{ thing:id }}",
+        "headerMapping": {
+          "device_id": "{{ thing:id }}",
+          "subject": "{{ header:subject | fn:default(topic:action-subject) | fn:default(topic:criterion) }}-response",
+          "correlation-id": "{{ header:correlation-id }}"
+        },
+        "expectedResponseTypes": [
+          "response",
+          "error"
+        ]
+      },
+      "acknowledgementRequests": {
+        "includes": [],
+        "filter": "fn:delete()"
+      },
+      "declaredAcks": []
+    },
+    {
+      "addresses": [
+        "hono.event.'"${HONO_TENANT}"'"
+      ],
+      "consumerCount": 1,
+      "authorizationContext": [
+        "pre-authenticated:hono-connection-'"${HONO_TENANT}"'"
+      ],
+      "qos": 1,
+      "enforcement": {
+        "input": "{{ header:device_id }}",
+        "filters": [
+          "{{ entity:id }}"
+        ]
+      },
+      "headerMapping": {},
+      "payloadMapping": [],
+      "replyTarget": {
+        "enabled": true,
+        "address": "hono.command.'"${HONO_TENANT}"'/{{ thing:id }}",
+        "headerMapping": {
+          "device_id": "{{ thing:id }}",
+          "subject": "{{ header:subject | fn:default(topic:action-subject) | fn:default(topic:criterion) }}-response",
+          "correlation-id": "{{ header:correlation-id }}"
+        },
+        "expectedResponseTypes": [
+          "response",
+          "error"
+        ]
+      },
+      "acknowledgementRequests": {
+        "includes": []
+      },
+      "declaredAcks": []
+    },
+    {
+      "addresses": [
+        "hono.command_response.'"${HONO_TENANT}"'"
+      ],
+      "consumerCount": 1,
+      "authorizationContext": [
+        "pre-authenticated:hono-connection-'"${HONO_TENANT}"'"
+      ],
+      "qos": 0,
+      "enforcement": {
+        "input": "{{ header:device_id }}",
+        "filters": [
+          "{{ entity:id }}"
+        ]
+      },
+      "headerMapping": {
+        "correlation-id": "{{ header:correlation-id }}",
+        "status": "{{ header:status }}"
+      },
+      "payloadMapping": [],
+      "replyTarget": {
+        "enabled": false,
+        "expectedResponseTypes": [
+          "response",
+          "error"
+        ]
+      },
+      "acknowledgementRequests": {
+        "includes": [],
+        "filter": "fn:delete()"
+      },
+      "declaredAcks": []
+    }
+  ],
+  "targets": [
+    {
+      "address": "hono.command.'"${HONO_TENANT}"'/{{ thing:id }}",
+      "authorizationContext": [
+        "pre-authenticated:hono-connection-'"${HONO_TENANT}"'"
+      ],
+      "headerMapping": {
+        "device_id": "{{ thing:id }}",
+        "subject": "{{ header:subject | fn:default(topic:action-subject) }}",
+        "correlation-id": "{{ header:correlation-id }}",
+        "response-required": "{{ header:response-required }}"
+      },
+      "topics": [
+        "_/_/things/live/commands",
+        "_/_/things/live/messages"
+      ]
+    },
+    {
+      "address": "hono.command.'"${HONO_TENANT}"'/{{thing:id}}",
+      "authorizationContext": [
+        "pre-authenticated:hono-connection-'"${HONO_TENANT}"'"
+      ],
+      "topics": [
+        "_/_/things/twin/events",
+        "_/_/things/live/events"
+      ],
+      "headerMapping": {
+        "device_id": "{{ thing:id }}",
+        "subject": "{{ header:subject | fn:default(topic:action-subject) }}",
+        "correlation-id": "{{ header:correlation-id }}"
+      }
+    }
+  ],
+  "specificConfig": {
+    "saslMechanism": "plain",
+    "bootstrapServers": "'"${RELEASE}"'-kafka:9092",
+    "groupId": "'"${HONO_TENANT}"'_{{ connection:id }}"
+  },
+  "clientCount": 1,
+  "failoverEnabled": true,
+  "validateCertificates": true
+}' http://34.71.8.184/api/2/connections/hono-kafka-connection-for-${HONO_TENANT//./_}
+
+
+curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
+  "entries": {
+    "DEFAULT": {
+      "subjects": {
+        "{{ request:subjectId }}": {
+           "type": "Ditto user authenticated via nginx"
+        }
+      },
+      "resources": {
+        "thing:/": {
+          "grant": ["READ", "WRITE"],
+          "revoke": []
+        },
+        "policy:/": {
+          "grant": ["READ", "WRITE"],
+          "revoke": []
+        },
+        "message:/": {
+          "grant": ["READ", "WRITE"],
+          "revoke": []
+        }
+      }
+    },
+    "HONO": {
+      "subjects": {
+        "pre-authenticated:hono-connection-'"${HONO_TENANT}"'": {
+          "type": "Connection to Eclipse Hono"
+        }
+      },
+      "resources": {
+        "thing:/": {
+          "grant": ["READ", "WRITE"],
+          "revoke": []
+        },
+        "message:/": {
+          "grant": ["READ", "WRITE"],
+          "revoke": []
+        }
+      }
+    }
+  }
+}' http://34.71.8.184/api/2/policies/co326:vehical-policy-new

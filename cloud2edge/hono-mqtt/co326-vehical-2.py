@@ -7,10 +7,13 @@ import time
 # Define the MQTT broker details
 broker_address = "34.71.8.184"
 port = 8883
-username = "my-auth-id-1@my-tenant"
-password = "my-password"
+vehical_id = "vehical-2"
+username = "vehical-2-auth@co326-tenant"
+password = "vehical-2"
 topic = "telemetry"
 ca_cert = "./ca.crt"
+
+feature = ["temperature", "humidity", "soil-moisture", "ph", "air-temperature", "locationX", "locationY"]
 
 # Define the MQTT client
 client = mqtt.Client()
@@ -46,30 +49,32 @@ client.loop_start()
 def get_random_value():
     return random.randint(0, 100)
 
+def send(vehical_id, feature, value):
+
+    # Create a message with a random value
+    message = {
+        "topic": f"co326/{vehical_id}/things/twin/commands/modify",
+        "headers": {},
+        "path": f"/features/{feature}/properties/value",
+        "value": value
+    }
+
+    # Convert message to JSON format
+    message_json = json.dumps(message)
+
+    # Publish the message
+    result = client.publish(topic, message_json)
+
+    # Print feedback
+    print(f"Published message: {message_json}")
+
+    # Wait for a while before publishing the next message
+    time.sleep(1)  # Adjust the delay as needed
+
 try:
     while True:
-        # Create a message with a random value
-        message = {
-            "topic": "org.acme/my-device-1/things/twin/commands/modify",
-            "headers": {},
-            "path": "/features/temperature/properties/value",
-            "value": get_random_value()
-        }
-
-        # Convert message to JSON format
-        message_json = json.dumps(message)
-
-        # Publish the message
-        result = client.publish(topic, message_json)
-
-        # Wait for the message to be published
-        # result.wait_for_publish()
-
-        # Print feedback
-        print(f"Published message: {message_json}")
-
-        # Wait for a while before publishing the next message
-        time.sleep(1)  # Adjust the delay as needed
+        for f in feature:
+            send(vehical_id, f, get_random_value())
 
 except KeyboardInterrupt:
     print("\nDisconnecting from broker...")

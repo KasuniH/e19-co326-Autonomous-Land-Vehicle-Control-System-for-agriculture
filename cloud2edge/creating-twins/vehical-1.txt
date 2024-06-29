@@ -1,0 +1,58 @@
+curl -i -k -X POST http://34.71.8.184:8085/v1/devices/co326-tenant/co326:vehical-1
+
+curl -i -k -X PUT -H "Content-Type: application/json" --data '[
+{
+  "type": "hashed-password",
+  "auth-id": "vehical-1-auth",
+  "secrets": [{
+    "pwd-plain": "vehical-1"
+  }]
+}]' http://34.71.8.184:8085/v1/credentials/co326-tenant/co326:vehical-1
+
+
+curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
+  "policyId": "co326:vehical-policy-new",
+  "attributes": {
+    "vehical-number": "01",
+    "farm-name": "co326",
+    "location": "Sri Lanka",
+    "co326-group": "05"
+  },
+  "features": {
+    "temperature": {
+      "properties": {
+        "value": null
+      }
+    },
+    "soil-moisture": {
+      "properties": {
+        "value": null
+      }
+    },
+    "locationX": {
+      "properties": {
+        "value": null
+      }
+    },
+    "locationY": {
+      "properties": {
+        "value": null
+      }
+    },
+    "ph": {
+      "properties": {
+        "value": null
+      }
+    },
+    "air-temperature": {
+      "properties": {
+        "value": null
+      }
+    },
+    "humidity": {
+      "properties": {
+        "value": null
+      }
+    }
+  }
+}' http://34.71.8.184/api/2/things/co326:vehical-1
