@@ -1,15 +1,15 @@
 curl -i -k -X POST http://34.71.8.184:8085/v1/tenants/co326-tenant
 
-curl -i -k -X POST http://34.71.8.184:8085/v1/devices/co326-tenant/co326:vehical-2
+curl -i -k -X POST http://34.71.8.184:8085/v1/devices/co326-tenant/co326:vehicle-2
 
 curl -i -k -X PUT -H "Content-Type: application/json" --data '[
 {
   "type": "hashed-password",
-  "auth-id": "vehical-2-auth",
+  "auth-id": "vehicle-2-auth",
   "secrets": [{
-    "pwd-plain": "vehical-2"
+    "pwd-plain": "vehicle-2"
   }]
-}]' http://34.71.8.184:8085/v1/credentials/co326-tenant/co326:vehical-2
+}]' http://34.71.8.184:8085/v1/credentials/co326-tenant/co326:vehicle-2
 
 NS=opentwins
 RELEASE=c2e
@@ -216,13 +216,13 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
       }
     }
   }
-}' http://34.71.8.184/api/2/policies/co326:vehical-policy-new
+}' http://34.71.8.184/api/2/policies/co326:vehicle-policy
 
 
 curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
-  "policyId": "co326:vehical-policy-new",
+  "policyId": "co326:vehicle-policy",
   "attributes": {
-    "vehical-number": "02",
+    "vehicle-number": "02",
     "farm-name": "co326",
     "location": "Sri Lanka",
     "co326-group": "05"
@@ -264,7 +264,7 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
       }
     }
   }
-}' http://34.71.8.184/api/2/things/co326:vehical-2
+}' http://34.71.8.184/api/2/things/co326:vehicle-2
 
 
 #######################################################################

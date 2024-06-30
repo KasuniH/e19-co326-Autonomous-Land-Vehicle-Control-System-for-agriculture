@@ -7,9 +7,9 @@ import time
 # Define the MQTT broker details
 broker_address = "34.71.8.184"
 port = 8883
-vehical_id = "vehical-2"
-username = "vehical-2-auth@co326-tenant"
-password = "vehical-2"
+vehical_id = "vehicle-3"
+username = "vehicle-3-auth@co326-tenant"
+password = "vehicle-3"
 topic = "telemetry"
 ca_cert = "./ca.crt"
 

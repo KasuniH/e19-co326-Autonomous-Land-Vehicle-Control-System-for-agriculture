@@ -205,4 +205,4 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
       }
     }
   }
-}' http://34.71.8.184/api/2/policies/co326:vehical-policy-new
+}' http://34.71.8.184/api/2/policies/co326:vehicle-policy
