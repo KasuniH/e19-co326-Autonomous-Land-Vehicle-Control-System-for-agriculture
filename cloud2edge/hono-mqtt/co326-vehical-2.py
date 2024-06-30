@@ -13,7 +13,7 @@ password = "vehical-2"
 topic = "telemetry"
 ca_cert = "./ca.crt"
 
-feature = ["temperature", "humidity", "soil-moisture", "ph", "air-temperature", "locationX", "locationY"]
+feature = ["soil-temperature", "air-humidity", "soil-moisture", "soil-ph", "air-temperature", "locationX", "locationY"]
 
 # Define the MQTT client
 client = mqtt.Client()

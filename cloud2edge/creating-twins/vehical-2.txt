@@ -228,7 +228,7 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
     "co326-group": "05"
   },
   "features": {
-    "temperature": {
+    "soil-temperature": {
       "properties": {
         "value": null
       }
@@ -248,7 +248,7 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
         "value": null
       }
     },
-    "ph": {
+    "soil-ph": {
       "properties": {
         "value": null
       }
@@ -258,7 +258,7 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
         "value": null
       }
     },
-    "humidity": {
+    "air-humidity": {
       "properties": {
         "value": null
       }
