@@ -1,0 +1,40 @@
+service:
+  enabled: false
+config:
+  agent:
+    debug: true
+  processors:
+    - rename:
+        replace:
+          - tag: "extra_attributes__parents"
+            dest: "parent"
+          - tag: "headers_ditto-originator"
+            dest: "originator"
+          - tag: "extra_features_idSimulationRun_properties_value"
+            dest: "idSimulationRun"
+          - tag: "extra_thingId"
+            dest: "thingId"
+  outputs:
+    - influxdb_v2:
+        urls:
+          - "https://35.230.51.27:8086"
+        token: "V2kDJoxw2PFxk9JTPwy5xhrGtP9EN2awiUCC5JePR8qvnGTdtqaB4qn1-DHQqMebfi8cm6V1LeEKN7S3W9XMsQ=="
+        organization: "co326"
+        bucket: "opentwins"
+  inputs:
+    - mqtt_consumer:
+        servers:
+          - "tcp://test.mosquitto.org:1883"
+        topics:
+          - "opentwins/#"
+        qos: 0
+        tag_keys:
+          - "extra_attributes__parents"
+          - "extra_thingId"
+          - "headers_ditto-originator"
+          - "extra_features_idSimulationRun_properties_value"
+          - "value_time_properties_value"
+        data_format: "json"
+metrics:
+  internal:
+    enabled: false

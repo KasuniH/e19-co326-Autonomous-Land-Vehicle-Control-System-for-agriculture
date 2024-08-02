@@ -1,0 +1,158 @@
+curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json' --data '{
+  "targetActorSelection": "/system/sharding/connection",
+  "headers": {
+    "aggregate": false
+  },
+  "piggybackCommand": {
+    "type": "connectivity.commands:createConnection",
+    "connection": {
+        "id": "kafka-connection",
+        "connectionType": "kafka",
+        "connectionStatus": "open",
+        "failoverEnabled": true,
+        "uri": "tcp://184.73.139.235:8082",
+        "specificConfig": {
+            "bootstrapServers": "184.73.139.235:8082",
+            "saslMechanism": "plain"
+        },
+        "sources": [],
+        "targets": [
+            {
+            "address": "ditto-msg",
+            "topics": [
+                "_/_/things/twin/events",
+                "_/_/things/live/messages"
+            ],
+            "authorizationContext": [
+                "nginx:ditto"
+            ]
+            }
+        ]
+    }
+  }
+}' http://192.168.49.2:31101/devops/piggyback/connectivity
+
+
+curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json' --data '{
+  "targetActorSelection": "/system/sharding/connection",
+  "headers": {
+    "aggregate": false
+  },
+  "piggybackCommand": {
+    "type": "connectivity.commands:createConnection",
+    "connection": {
+        "id": "kafka-connection-1",
+        "connectionType": "kafka",
+        "connectionStatus": "open",
+        "failoverEnabled": true,
+        "uri": "tcp://pkc-12576z.us-west2.gcp.confluent.cloud:9092",
+        "specificConfig": {
+            "bootstrapServers": "pkc-12576z.us-west2.gcp.confluent.cloud:9092",
+            "saslMechanism": "plain"
+        },
+        "sources": [],
+        "targets": [
+            {
+            "address": "ditto-topic",
+            "topics": [
+                "_/_/things/twin/events?extraFields=thingId,attributes/_parents,features/idSimulationRun/properties/value",
+                "_/_/things/twin/events",
+                "_/_/things/live/messages"
+            ],
+            "authorizationContext": [
+                "nginx:ditto"
+            ]
+            }
+        ]
+    }
+  }
+}' ${DITTO_API_BASE_URL:?}/devops/piggyback/connectivity
+
+
+{
+  "name": "Kafka 2.x",
+  "connectionType": "kafka",
+  "connectionStatus": "closed",
+  "failoverEnabled": true,
+  "uri": "tcp://user:password@localhost:9092",
+  "specificConfig": {
+    "bootstrapServers": "localhost:9092,other.host:9092",
+    "saslMechanism": "plain"
+  },
+  "sources": [
+    {
+      "addresses": [
+        "theTopic"
+      ],
+      "consumerCount": 1,
+      "qos": 1,
+      "authorizationContext": [
+        "ditto:inbound-auth-subject"
+      ],
+      "enforcement": {
+        "input": "{{ header:device_id }}",
+        "filters": [
+          "{{ entity:id }}"
+        ]
+      },
+      "headerMapping": {},
+      "payloadMapping": [
+        "Ditto"
+      ],
+      "replyTarget": {
+        "enabled": true,
+        "address": "theReplyTopic",
+        "headerMapping": {},
+        "expectedResponseTypes": [
+          "response",
+          "error",
+          "nack"
+        ]
+      },
+      "acknowledgementRequests": {
+        "includes": []
+      },
+      "declaredAcks": []
+    }
+  ],
+  "targets": [
+    {
+      "address": "topic/key",
+      "topics": [
+        "_/_/things/twin/events",
+        "_/_/things/live/messages"
+      ],
+      "authorizationContext": [
+        "ditto:outbound-auth-subject"
+      ]
+    }
+  ]
+}
+
+
+{
+  "name": "Kafka 2.x",
+  "connectionType": "kafka",
+  "connectionStatus": "closed",
+  "failoverEnabled": true,
+  "uri": "tcp://2IE7RVDBKBR2L7R3:kyHb0HnV2ZG8PCKUoT6LFrXhZZqKC9PyF/4bV4ezQ4/yvmObk6a8V5MimTQ1LNWL@pkc-12576z.us-west2.gcp.confluent.cloud:9092",
+  "specificConfig": {
+    "bootstrapServers": "pkc-12576z.us-west2.gcp.confluent.cloud:9092",
+    "saslMechanism": "plain",
+    "saslUsername": "2IE7RVDBKBR2L7R3",
+    "saslPassword": "kyHb0HnV2ZG8PCKUoT6LFrXhZZqKC9PyF/4bV4ezQ4/yvmObk6a8V5MimTQ1LNWL"
+  },
+  "sources": [],
+  "targets": [
+    {
+      "address": "ditto-topic",
+      "topics": [
+        "_/_/things/twin/events",
+        "_/_/things/live/messages"
+      ],
+      "authorizationContext": [
+        "ditto:outbound-auth-subject"
+      ]
+    }
+  ]
+}

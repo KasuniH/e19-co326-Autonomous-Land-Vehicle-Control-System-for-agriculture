@@ -14,3 +14,14 @@ mosquitto_pub -d -h 192.168.49.2 -p 30234 -u demo-device@org.eclipse.packages.c2
 
 
 192.168.49.2:31101
+
+
+{"topic":"co326/vehicle-1/things/twin/events/modified",
+"headers":{"ditto-originator":"pre-authenticated:hono-connection-co326-tenant",
+"response-required":false,"version":2,"requested-acks":[],
+"content-type":"application/json",
+"correlation-id":"85d80591-7daa-489b-aec3-9f8973f74d2e"},"
+path":"/features/air-humidity/properties/value",
+"value":29,
+"extra":{"thingId":"co326:vehicle-1"},
+"revision":10321,"timestamp":"2024-07-31T18:40:21.544606684Z"}

@@ -1,4 +1,4 @@
-curl -i -k -X POST http://34.71.8.184:8085/v1/tenants/co326-tenant
+curl -i -k -X POST http://34.42.82.181:8085/v1/tenants/co326-tenant
 
 NS=opentwins
 RELEASE=c2e
@@ -161,7 +161,7 @@ curl -i -X PUT -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json'
   "clientCount": 1,
   "failoverEnabled": true,
   "validateCertificates": true
-}' http://34.71.8.184/api/2/connections/hono-kafka-connection-for-${HONO_TENANT//./_}
+}' http://34.42.82.181/api/2/connections/hono-kafka-connection-for-${HONO_TENANT//./_}
 
 
 curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
@@ -205,4 +205,4 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
       }
     }
   }
-}' http://34.71.8.184/api/2/policies/co326:vehicle-policy
+}' http://34.42.82.181/api/2/policies/co326:vehicle-policy

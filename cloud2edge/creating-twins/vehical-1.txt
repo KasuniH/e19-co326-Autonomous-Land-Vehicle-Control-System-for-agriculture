@@ -1,4 +1,4 @@
-curl -i -k -X POST http://34.71.8.184:8085/v1/devices/co326-tenant/co326:vehicle-1
+curl -i -k -X POST http://34.42.82.181:8085/v1/devices/co326-tenant/co326:vehicle-1
 
 curl -i -k -X PUT -H "Content-Type: application/json" --data '[
 {
@@ -7,7 +7,7 @@ curl -i -k -X PUT -H "Content-Type: application/json" --data '[
   "secrets": [{
     "pwd-plain": "vehicle-1"
   }]
-}]' http://34.71.8.184:8085/v1/credentials/co326-tenant/co326:vehicle-1
+}]' http://34.42.82.181:8085/v1/credentials/co326-tenant/co326:vehicle-1
 
 
 curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
@@ -55,4 +55,4 @@ curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
       }
     }
   }
-}' http://34.71.8.184/api/2/things/co326:vehicle-1
+}' http://34.42.82.181/api/2/things/co326:vehicle-1

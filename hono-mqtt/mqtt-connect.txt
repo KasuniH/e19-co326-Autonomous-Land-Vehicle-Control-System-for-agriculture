@@ -1,0 +1,189 @@
+curl -X POST 'http://192.168.49.2:31315/devops/piggyback/connectivity' -u 'devops:OU00JmkzcWh8' -H 'Content-Type: application/json' -d '{
+    "targetActorSelection": "/system/sharding/connection",
+    "headers": {
+    	"aggregate": false
+    },
+    "piggybackCommand": {
+        "type": "connectivity.commands:createConnection",
+        "connection": {
+            "id": "mqtt-example-connection-123",
+            "connectionType": "mqtt",
+            "connectionStatus": "open",
+            "failoverEnabled": true,
+            "uri": "tcp://test.mosquitto.org:1883",
+            "sources": [{
+                "addresses": ["org.acme/#"],
+                "authorizationContext": ["nginx:ditto"],
+                "qos": 0,
+                "filters": []
+            }],
+            "targets": [{
+                "address": "org.acme/{{ thing:id }}",
+                "topics": [
+                "_/_/things/twin/events",
+                "_/_/things/live/messages"
+                ],
+                "authorizationContext": ["nginx:ditto"],
+                "qos": 0
+            }]
+        }
+    }
+}'
+
+curl -X POST 'http://34.42.82.181/devops/piggyback/connectivity' -u 'devops:rt79wf6MZI90' -H 'Content-Type: application/json' -d '{
+    "targetActorSelection": "/system/sharding/connection",
+    "headers": {
+    	"aggregate": false
+    },
+    "piggybackCommand": {
+        "type": "connectivity.commands:createConnection",
+        "connection": {
+            "id": "mqtt-co236-vehicals",
+            "connectionType": "mqtt",
+            "connectionStatus": "open",
+            "failoverEnabled": true,
+            "uri": "tcp://test.mosquitto.org:1883",
+            "sources": [{
+                "addresses": ["co326/#"],
+                "authorizationContext": ["nginx:ditto"],
+                "qos": 0,
+                "filters": []
+            }],
+            "targets": [{
+                "address": "co326/{{ thing:id }}",
+                "topics": [
+                "_/_/things/twin/events",
+                "_/_/things/live/messages"
+                ],
+                "authorizationContext": ["nginx:ditto"],
+                "qos": 0
+            }]
+        }
+    }
+}'
+
+
+{
+  "name": "mosquitto-target-connection",
+  "connectionType": "mqtt-5",
+  "connectionStatus": "open",
+  "uri": "tcp://test.mosquitto.org:1883",
+  "clientCount": 1,
+  "failoverEnabled": true,
+  "sources": [],
+  "targets": [
+    {
+      "address": "opentwins/{{ topic:channel }}/{{ topic:criterion }}/{{ thing:namespace }}/{{ thing:name }}",
+      "topics": [
+        "_/_/things/twin/events?extraFields=thingId,attributes/_parents,features/idSimulationRun/properties/value",
+        "_/_/things/live/messages",
+        "_/_/things/live/commands"
+      ],
+      "qos": 1,
+      "authorizationContext": [
+        "nginx:ditto"
+      ]
+    }
+  ]
+}
+
+curl -X POST 'http://34.42.82.181/devops/piggyback/connectivity' -u 'devops:rt79wf6MZI90' -H 'Content-Type: application/json' -d '{
+    "targetActorSelection": "/system/sharding/connection",
+    "headers": {
+    	"aggregate": false
+    },
+    "piggybackCommand": {
+        "type": "connectivity.commands:createConnection",
+        "connection": {
+  "name": "mosquitto-target-connection",
+  "connectionType": "mqtt-5",
+  "connectionStatus": "open",
+  "uri": "tcp://test.mosquitto.org:1883",
+  "clientCount": 1,
+  "failoverEnabled": true,
+  "sources": [],
+  "targets": [
+    {
+      "address": "opentwins/{{ topic:channel }}/{{ topic:criterion }}/{{ thing:namespace }}/{{ thing:name }}",
+      "topics": [
+        "_/_/things/twin/events?extraFields=thingId,attributes/_parents,features/idSimulationRun/properties/value",
+        "_/_/things/live/messages",
+        "_/_/things/live/commands"
+      ],
+      "qos": 1,
+      "authorizationContext": [
+        "nginx:ditto"
+      ]
+    }
+  ]
+}
+    }
+}'
+
+
+curl -X POST 'http://34.42.82.181/devops/piggyback/connectivity' -u 'devops:rt79wf6MZI90' -H 'Content-Type: application/json' -d '{
+    "targetActorSelection": "/system/sharding/connection",
+    "headers": {
+    	"aggregate": false
+    },
+    "piggybackCommand": {
+        "type": "connectivity.commands:createConnection",
+        "connection": {
+            "id": "mqtt-co236",
+            "connectionType": "mqtt",
+            "connectionStatus": "open",
+            "failoverEnabled": true,
+            "uri": "tcp://test.mosquitto.org:1883",
+            "sources": [{
+                "addresses": ["co326/#"],
+                "authorizationContext": ["nginx:ditto"],
+                "qos": 0,
+                "filters": []
+            }],
+            "targets": [
+            {
+              "address": "opentwins/{{ topic:channel }}/{{ topic:criterion }}/{{ thing:namespace }}/{{ thing:name }}",
+              "topics": [
+                "_/_/things/twin/events?extraFields=thingId,attributes/_parents,features/idSimulationRun/properties/value",
+                "_/_/things/live/messages",
+                "_/_/things/live/commands"
+              ],
+              "qos": 0,
+              "authorizationContext": [
+                "nginx:ditto"
+              ]
+            }
+          ]
+        }
+    }
+}'
+
+
+{
+  "id": "unique-connection-id",
+  "name": "mosquitto-target-connection",
+  "connectionType": "mqtt-5",
+  "connectionStatus": "open",
+  "uri": "tcp://test.mosquitto.org:1883",
+  "sources": [],
+  "targets": [
+    {
+      "address": "opentwins/{{ topic:channel }}/{{ topic:criterion }}/{{ thing:namespace }}/{{ thing:name }}",
+      "topics": [
+        "_/_/things/twin/events?extraFields=thingId,attributes/_parents,features/idSimulationRun/properties/value",
+        "_/_/things/live/messages",
+        "_/_/things/live/commands"
+      ],
+      "qos": 1,
+      "authorizationContext": [
+        "nginx:ditto"
+      ],
+      "headerMapping": {}
+    }
+  ],
+  "clientCount": 1,
+  "failoverEnabled": true,
+  "validateCertificates": true,
+  "processorPoolSize": 1,
+  "tags": []
+}

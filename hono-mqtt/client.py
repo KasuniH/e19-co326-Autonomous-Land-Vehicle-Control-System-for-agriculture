@@ -5,7 +5,7 @@ broker_address = "test.mosquitto.org"
 port = 1883
 
 # Define the topic to subscribe to
-topic = "co326/#"
+topic = "opentwins/#"
 
 # Define the MQTT client
 client = mqtt.Client()
@@ -33,3 +33,5 @@ client.connect(broker_address, port)
 
 # Start the loop
 client.loop_forever()
+
+# V2kDJoxw2PFxk9JTPwy5xhrGtP9EN2awiUCC5JePR8qvnGTdtqaB4qn1-DHQqMebfi8cm6V1LeEKN7S3W9XMsQ==

@@ -5,7 +5,7 @@ import random
 import time
 
 # Define the MQTT broker details
-broker_address = "34.71.8.184"
+broker_address = "34.42.82.181"
 port = 8883
 vehical_id = "vehicle-1"
 username = "vehicle-1-auth@co326-tenant"
