@@ -41,6 +41,8 @@ minikube -p opentwins ssh -- sudo docker stats --no-stream
 
 kubectl get pods -n opentwins
 kubectl get services -n opentwins
+kubectl delete deployment new-telegraf -n opentwins
+kubectl delete pod new-telegraf-56cb64b5c6-9n5gr
 
 minikube stop -p opentwins
 minikube start -p opentwins

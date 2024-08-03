@@ -1,4 +1,4 @@
-curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json' --data '{
+curl -i -X POST -u devops:rt79wf6MZI90 -H 'Content-Type: application/json' --data '{
   "targetActorSelection": "/system/sharding/connection",
   "headers": {
     "aggregate": false
@@ -10,15 +10,15 @@ curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json
         "connectionType": "kafka",
         "connectionStatus": "open",
         "failoverEnabled": true,
-        "uri": "tcp://184.73.139.235:8082",
+        "uri": "tcp://34.42.82.181:9092",
         "specificConfig": {
-            "bootstrapServers": "184.73.139.235:8082",
+            "bootstrapServers": "34.42.82.181:9092",
             "saslMechanism": "plain"
         },
         "sources": [],
         "targets": [
             {
-            "address": "ditto-msg",
+            "address": "opentwins",
             "topics": [
                 "_/_/things/twin/events",
                 "_/_/things/live/messages"
@@ -30,7 +30,7 @@ curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json
         ]
     }
   }
-}' http://192.168.49.2:31101/devops/piggyback/connectivity
+}' http://34.42.82.181/devops/piggyback/connectivity
 
 
 curl -i -X POST -u devops:${DITTO_DEVOPS_PWD} -H 'Content-Type: application/json' --data '{

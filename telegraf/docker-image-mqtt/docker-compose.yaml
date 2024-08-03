@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  telegraf:
+    container_name: telegraf_co326
+    image: telegraf:latest
+    command: ["telegraf", "--debug", "--config", "/etc/telegraf/telegraf.conf"]
+    volumes:
+      - ./mytelegraf.conf:/etc/telegraf/telegraf.conf
