@@ -1,7 +1,6 @@
 from fmpy import simulate_fmu
 import threading
 import matplotlib.pyplot as plt
-import os
 
 current_simulation = None
 simulation_thread = None
