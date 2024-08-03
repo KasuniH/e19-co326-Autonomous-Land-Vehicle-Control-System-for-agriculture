@@ -1,0 +1,26 @@
+C:/Users/MOHAMED FAHMAN/AppData/Local/Temp/OpenModelica/OMEdit/AgricultureSystem/AgricultureSystem.exe -port=60846 -logFormat=xmltcp -override=startTime=0,stopTime=100,stepSize=0.2,tolerance=1e-06,solver=dassl,outputFormat=mat,variableFilter=.* -r=C:/Users/MOHAMED FAHMAN/AppData/Local/Temp/OpenModelica/OMEdit/AgricultureSystem/AgricultureSystem_res.mat -w -lv=LOG_STDOUT,LOG_ASSERT,LOG_STATS -inputPath=C:/Users/MOHAMED FAHMAN/AppData/Local/Temp/OpenModelica/OMEdit/AgricultureSystem -outputPath=C:/Users/MOHAMED FAHMAN/AppData/Local/Temp/OpenModelica/OMEdit/AgricultureSystem
+The initialization finished successfully without homotopy method.
+### STATISTICS ###
+timer
+   0.0034474s          reading init.xml
+   0.0010221s          reading info.xml
+   0.0011331s [  6.3%] pre-initialization
+   0.0004821s [  2.7%] initialization
+    2.05e-05s [  0.1%] steps
+   0.0020061s [ 11.2%] solver (excl. callbacks)
+    0.001389s [  7.8%] creating output-file
+   0.0001522s [  0.9%] event-handling
+     0.00031s [  1.7%] overhead
+   0.0123919s [ 69.3%] simulation
+   0.0178849s [100.0%] total
+events
+    0 state events
+    0 time events
+solver: dassl
+   37 steps taken
+   45 calls of functionODE
+   21 evaluations of jacobian
+    0 error test failures
+    0 convergence test failures
+1.27e-05s time of jacobian evaluation
+The simulation finished successfully.

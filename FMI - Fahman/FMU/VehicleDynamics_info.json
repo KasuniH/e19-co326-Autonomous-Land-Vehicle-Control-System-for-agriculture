@@ -1,0 +1,30 @@
+{"format":"Transformational debugger info","version":1,
+"info":{"name":"VehicleDynamics","description":""},
+"variables":{
+"position":{"comment":"","kind":"state","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":9,"lineEnd":9,"colStart":3,"colEnd":16}}},
+"velocity":{"comment":"","kind":"state","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":8,"lineEnd":8,"colStart":3,"colEnd":16}}},
+"der(position)":{"comment":"","kind":"derivative","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":9,"lineEnd":9,"colStart":3,"colEnd":16}}},
+"der(velocity)":{"comment":"","kind":"derivative","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":8,"lineEnd":8,"colStart":3,"colEnd":16}}},
+"currentPosition":{"comment":"","kind":"variable","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":17,"lineEnd":17,"colStart":3,"colEnd":30}}},
+"frictionForce":{"comment":"","kind":"variable","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":11,"lineEnd":11,"colStart":3,"colEnd":21}}},
+"inputForce":{"comment":"","kind":"variable","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":14,"lineEnd":14,"colStart":3,"colEnd":24}}},
+"inputForce":{"comment":"","kind":"variable","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":14,"lineEnd":14,"colStart":3,"colEnd":24}}},
+"kFriction":{"comment":"","kind":"parameter","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":5,"lineEnd":5,"colStart":3,"colEnd":33}}},
+"mass":{"comment":"","kind":"parameter","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":3,"lineEnd":3,"colStart":3,"colEnd":28}}},
+"wheelRadius":{"comment":"","kind":"parameter","type":"Real","unit":"","displayUnit":"","source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":4,"lineEnd":4,"colStart":3,"colEnd":35}}}
+},
+"equations":[{"eqIndex":0,"tag":"dummy"},
+{"eqIndex":1,"section":"initial","tag":"assign","defines":["velocity"],"uses":["$START.velocity"],"equation":["$START.velocity"],"source":{"info":{"file":"","lineStart":0,"lineEnd":0,"colStart":0,"colEnd":0}}},
+{"eqIndex":2,"tag":"alias","equation":[9],"section":"initial"},
+{"eqIndex":3,"tag":"alias","equation":[7],"section":"initial"},
+{"eqIndex":4,"tag":"alias","equation":[8],"section":"initial"},
+{"eqIndex":5,"section":"initial","tag":"assign","defines":["position"],"uses":["$START.position"],"equation":["$START.position"],"source":{"info":{"file":"","lineStart":0,"lineEnd":0,"colStart":0,"colEnd":0}}},
+{"eqIndex":6,"tag":"alias","equation":[10],"section":"initial"},
+{"eqIndex":7,"section":"regular","tag":"assign","defines":["frictionForce"],"uses":["velocity","kFriction"],"equation":["kFriction * velocity"],"source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":25,"lineEnd":25,"colStart":5,"colEnd":41}}},
+{"eqIndex":8,"section":"regular","tag":"assign","defines":["der(velocity)"],"uses":["mass","frictionForce","inputForce"],"equation":["(inputForce - frictionForce) / mass"],"source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":22,"lineEnd":22,"colStart":5,"colEnd":56}}},
+{"eqIndex":9,"section":"regular","tag":"assign","defines":["der(position)"],"uses":["velocity"],"equation":["velocity"],"source":{"info":{"file":"C:/Users/MOHAMED FAHMAN/Desktop/CO326 Project/Models/VehicleDynamics.mo","lineStart":23,"lineEnd":23,"colStart":5,"colEnd":29}}},
+{"eqIndex":10,"section":"regular","tag":"assign","defines":["currentPosition"],"uses":["position"],"equation":["position"],"source":{"info":{"file":"","lineStart":0,"lineEnd":0,"colStart":0,"colEnd":0}}}
+],
+"functions":[
+]
+}
