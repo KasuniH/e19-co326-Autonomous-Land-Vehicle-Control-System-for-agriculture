@@ -43,8 +43,8 @@ agricultural_sink = RawSink(
 
 # Load and send data
 try:
-    # Replace with your CSV file path
-    csv_path = 'path/to/your/agricultural_data.csv'
+    
+    csv_path = 'agricultural_data.csv'
     
     # Load the data
     (x_train, y_train), (x_test, y_test) = load_agricultural_data(csv_path)
