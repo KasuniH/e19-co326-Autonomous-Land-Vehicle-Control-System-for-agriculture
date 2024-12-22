@@ -1,4 +1,4 @@
-ip - 34.71.8.184
+// Port mapping of Cloud2Edge
 
 NAME                                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)      
 c2e-ditto-nginx                        LoadBalancer   10.106.156.53    10.106.156.53    8080:30846/TCP -> 80
