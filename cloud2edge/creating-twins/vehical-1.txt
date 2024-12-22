@@ -1,24 +1,27 @@
+# Create a device in Hono
 curl -i -k -X POST http://34.42.82.181:8085/v1/devices/co326-tenant/co326:vehicle-1
 
+# Add authentication credentials for the device
 curl -i -k -X PUT -H "Content-Type: application/json" --data '[
-{
-  "type": "hashed-password",
-  "auth-id": "vehicle-1-auth",
-  "secrets": [{
-    "pwd-plain": "vehicle-1"
-  }]
-}]' http://34.42.82.181:8085/v1/credentials/co326-tenant/co326:vehicle-1
+  {
+    "type": "hashed-password",
+    "auth-id": "vehicle-1-auth",
+    "secrets": [{
+      "pwd-plain": "vehicle-1"
+    }]
+  }
+]' http://34.42.82.181:8085/v1/credentials/co326-tenant/co326:vehicle-1
 
-
+# Add or update the digital twin of the vehicle in Eclipse Ditto
 curl -i -X PUT -u ditto:ditto -H 'Content-Type: application/json' --data '{
-  "policyId": "co326:vehicle-policy",
-  "attributes": {
+  "policyId": "co326:vehicle-policy",   # Policy associated with the digital twin
+  "attributes": {                      # Static attributes of the vehicle
     "vehicle-number": "01",
     "farm-name": "co326",
     "location": "Sri Lanka",
     "co326-group": "05"
   },
-  "features": {
+  "features": {                        # Dynamic features with initial null values
     "soil-temperature": {
       "properties": {
         "value": null
